@@ -1,0 +1,54 @@
+{
+  "novels": [
+    {
+      "title": "The Lekki Headmaster",
+      "author": "Kabir Alabi Garba",
+      "summary": "The Lekki Headmaster follows Mr. Bepo Adewale, a dedicated principal who has served Stardom Schools in Lekki, Lagos for many years. Bepo is respected for his leadership, fairness, wisdom and commitment to education. However, he faces pressure from his family to leave Nigeria and relocate to the United Kingdom, where his wife and children are living.\n\nAs Bepo prepares to leave, the novel explores his experiences as an educator, the challenges facing Nigerian schools, the pressure to migrate abroad, and the importance of integrity and responsibility. Bepo struggles between the promise of a better life overseas and his deep attachment to his students and profession.\n\nEventually, a powerful experience at the airport causes Bepo to reconsider his decision. He abandons his journey and returns to Stardom Schools, choosing to continue serving his students. The novel highlights themes such as dedication to education, leadership, family pressure, migration, patriotism, integrity and the importance of finding purpose in one's work.",
+      "characters": [
+        {
+          "name": "Bepo Adewale",
+          "role": "Headmaster of Stardom Schools"
+        },
+        {
+          "name": "Juliet Adewale",
+          "role": "Bepo's wife"
+        },
+        {
+          "name": "Mrs. Ibidun Gloss",
+          "role": "Teacher at Stardom Schools"
+        },
+        {
+          "name": "Chief Adewale",
+          "role": "Bepo's father"
+        }
+      ]
+    },
+    {
+      "title": "The Life Changer",
+      "author": "Khadija Abubakar Jalli",
+      "summary": "The Life Changer follows Salma, a young university student, as she begins her university life and experiences the challenges, relationships and lessons that come with it. The story explores student life, friendship, relationships, academic pressure, social behaviour and the consequences of personal choices.\n\nThrough Salma and the other characters, the novel shows how people can be influenced by their environment and by the decisions they make. It also highlights issues such as honesty, responsibility, peer influence and the importance of learning from experience.",
+      "characters": [
+        {
+          "name": "Salma",
+          "role": "A confident and outspoken university student whose experiences drive much of the story."
+        },
+        {
+          "name": "Ummi",
+          "role": "A university student and mother who narrates the events of her daughter's university experience."
+        },
+        {
+          "name": "Bint",
+          "role": "Ummi's daughter who shares her experiences and observations about university life."
+        },
+        {
+          "name": "Omar",
+          "role": "A university student whose actions become connected to Salma's experiences."
+        },
+        {
+          "name": "Habib",
+          "role": "A character whose relationship with Salma contributes to the development of the story."
+        }
+      ]
+    }
+  ]
+}

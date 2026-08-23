@@ -1,0 +1,72 @@
+const fs = require('fs');
+const q = require('./questions');
+
+q["Economics"] = [
+  {question:"Economics is mainly concerned with the study of:",options:["Scarce resources and unlimited wants","Weather","Politics only","Biology"],answer:0},
+  {question:"The basic economic problem is:",options:["Inflation","Scarcity","Unemployment","Taxation"],answer:1},
+  {question:"Opportunity cost is:",options:["Money spent","The next best alternative forgone","Total revenue","Profit made"],answer:1},
+  {question:"The reward for labour is:",options:["Rent","Wages","Interest","Profit"],answer:1},
+  {question:"The reward for capital is:",options:["Wages","Rent","Interest","Profit"],answer:2},
+  {question:"The reward for land is:",options:["Rent","Wages","Interest","Profit"],answer:0},
+  {question:"The reward for entrepreneurship is:",options:["Rent","Wages","Interest","Profit"],answer:3},
+  {question:"A production possibility curve shows:",options:["Alternative production combinations","Population growth","Price changes only","Unlimited production"],answer:0},
+  {question:"Demand means the quantity consumers are:",options:["Able and willing to buy","Forced to buy","Unable to buy","Producing"],answer:0},
+  {question:"The law of demand states that, other things equal, quantity demanded generally:",options:["Rises as price rises","Falls as price rises","Never changes","Equals supply"],answer:1},
+  {question:"The law of supply states that quantity supplied generally:",options:["Falls as price rises","Rises as price rises","Never changes","Falls as demand rises"],answer:1},
+  {question:"Market equilibrium occurs when:",options:["Demand exceeds supply","Supply exceeds demand","Demand equals supply","Price is zero"],answer:2},
+  {question:"An increase in demand usually causes equilibrium price to:",options:["Fall","Rise","Remain zero","Disappear"],answer:1},
+  {question:"An increase in supply usually causes equilibrium price to:",options:["Rise","Fall","Double","Remain fixed"],answer:1},
+  {question:"Price elasticity of demand measures responsiveness of quantity demanded to changes in:",options:["Income","Price","Population","Technology"],answer:1},
+  {question:"A perfectly inelastic demand curve is:",options:["Horizontal","Vertical","Circular","Upward sloping"],answer:1},
+  {question:"Demand for a normal good generally rises when:",options:["Income rises","Price rises","Supply falls","Population falls"],answer:0},
+  {question:"Demand for an inferior good may fall when:",options:["Income rises","Price falls","Supply rises","Population rises"],answer:0},
+  {question:"A substitute for tea is:",options:["Coffee","Sugar","Salt","Water"],answer:0},
+  {question:"A complement of a car is:",options:["Petrol","Rice","Clothing","Bread"],answer:0},
+  {question:"Utility means:",options:["Cost of production","Satisfaction from consumption","Price of goods","Amount supplied"],answer:1},
+  {question:"Marginal utility is the additional utility from:",options:["All goods","One extra unit consumed","Selling goods","Production"],answer:1},
+  {question:"Total utility is the:",options:["Sum of utilities from units consumed","Price of a good","Cost of labour","Level of supply"],answer:0},
+  {question:"A fixed cost:",options:["Changes with output","Does not vary with output in the short run","Is always zero","Equals profit"],answer:1},
+  {question:"A variable cost:",options:["Changes with output","Never changes","Is always fixed","Is revenue"],answer:0},
+  {question:"Total cost equals:",options:["Fixed cost plus variable cost","Revenue minus profit","Price times demand","Wages plus rent only"],answer:0},
+  {question:"Profit equals:",options:["Total cost minus revenue","Total revenue minus total cost","Price minus demand","Supply minus demand"],answer:1},
+  {question:"Total revenue is:",options:["Price multiplied by quantity sold","Cost multiplied by labour","Profit multiplied by tax","Demand multiplied by supply"],answer:0},
+  {question:"A monopoly is a market with:",options:["One seller","Two sellers","Many sellers","No seller"],answer:0},
+  {question:"An oligopoly is characterized by:",options:["Many tiny firms","A few large firms","One buyer only","No competition"],answer:1},
+  {question:"Perfect competition has:",options:["Many buyers and sellers","One seller","Two sellers only","No buyers"],answer:0},
+  {question:"Inflation is a sustained rise in the:",options:["General price level","Population","Exchange rate only","Production only"],answer:0},
+  {question:"Deflation is a sustained fall in the:",options:["General price level","Population","Labour force","Exports"],answer:0},
+  {question:"Unemployment refers to people willing and able to work but:",options:["Are retired","Cannot find jobs","Are students only","Own businesses"],answer:1},
+  {question:"GDP measures the value of:",options:["Final goods and services produced domestically","Only exports","Only imports","Only government spending"],answer:0},
+  {question:"Per capita income is approximately:",options:["National income divided by population","Population divided by income","Exports divided by imports","GDP multiplied by population"],answer:0},
+  {question:"Fiscal policy involves government decisions about:",options:["Taxation and spending","Weather","Population only","Private wages"],answer:0},
+  {question:"Monetary policy is mainly concerned with:",options:["Money supply and interest rates","Road construction","Agriculture only","Population census"],answer:0},
+  {question:"A central bank is responsible for:",options:["Monetary policy","Selling clothes","Producing food","Building houses"],answer:0},
+  {question:"Commercial banks mainly:",options:["Accept deposits and give loans","Print all currency","Make laws","Collect customs duties"],answer:0},
+  {question:"A budget deficit occurs when government:",options:["Revenue exceeds spending","Spending exceeds revenue","Has no debt","Stops collecting taxes"],answer:1},
+  {question:"A budget surplus occurs when:",options:["Spending exceeds revenue","Revenue exceeds spending","Imports exceed exports","Prices fall"],answer:1},
+  {question:"Balance of trade is the difference between:",options:["Visible exports and visible imports","Income and savings","Taxes and spending","Wages and rent"],answer:0},
+  {question:"A favourable balance of trade occurs when:",options:["Exports exceed imports","Imports exceed exports","Imports equal zero","Exports equal zero"],answer:0},
+  {question:"Devaluation means:",options:["Official reduction in currency value","Increase in wages","Fall in population","Rise in exports only"],answer:0},
+  {question:"Exchange rate is the:",options:["Price of one currency in terms of another","Price of labour","Cost of production","Tax rate"],answer:0},
+  {question:"A tariff is a tax on:",options:["Imports","Local wages","Exports only","Savings"],answer:0},
+  {question:"An export is a good or service:",options:["Sold to another country","Bought from another country","Produced at home only","Destroyed"],answer:0},
+  {question:"An import is a good or service:",options:["Bought from another country","Sold abroad","Produced only locally","Given free"],answer:0},
+  {question:"Division of labour means:",options:["Breaking production into specialized tasks","Stopping production","Hiring no workers","Producing one good only"],answer:0},
+  {question:"Specialization can lead to:",options:["Higher productivity","Lower skill always","No output","Zero trade"],answer:0},
+  {question:"Capital as a factor of production refers to:",options:["Man-made resources used in production","Money only","Land only","Workers only"],answer:0},
+  {question:"Labour as a factor of production refers to:",options:["Human effort used in production","Machines","Land","Money"],answer:0},
+  {question:"Land as a factor of production includes:",options:["Natural resources","Only buildings","Only workers","Only money"],answer:0},
+  {question:"Entrepreneurship involves:",options:["Organizing factors of production and bearing risk","Only manual labour","Only saving money","Only buying goods"],answer:0},
+  {question:"Economic growth means an increase in:",options:["Real output over time","Prices only","Population only","Imports only"],answer:0},
+  {question:"Economic development includes improvements in:",options:["Living standards and economic welfare","Prices only","Imports only","Taxes only"],answer:0},
+  {question:"A consumer is a person who:",options:["Uses goods and services","Produces only","Exports only","Collects taxes"],answer:0},
+  {question:"A producer is one who:",options:["Creates goods or services","Only consumes goods","Only saves money","Only imports"],answer:0}
+];
+
+fs.writeFileSync(
+  './questions.js',
+  'const questionBank = ' + JSON.stringify(q, null, 2) +
+  ';\\n\\nmodule.exports = questionBank;\\n'
+);
+
+console.log("Economics:", q["Economics"].length);

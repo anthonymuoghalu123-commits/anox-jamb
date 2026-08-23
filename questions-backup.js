@@ -1,0 +1,451 @@
+const questionBank = {
+
+
+    "English Language": [
+  {
+    question: "Choose the word closest in meaning to 'rapid'.",
+    options: ["Slow", "Quick", "Weak", "Late"],
+    answer: 1
+  },
+  {
+    question: "Choose the word opposite in meaning to 'ancient'.",
+    options: ["Old", "Historic", "Modern", "Former"],
+    answer: 2
+  },
+  {
+    question: "Complete the sentence: She _____ to school every morning.",
+    options: ["go", "goes", "going", "gone"],
+    answer: 1
+  },
+  {
+    question: "Choose the correctly spelt word.",
+    options: ["Accomodate", "Acommodate", "Accommodate", "Acomodate"],
+    answer: 2
+  },
+  {
+    question: "Choose the word closest in meaning to 'generous'.",
+    options: ["Selfish", "Kind-hearted", "Angry", "Careless"],
+    answer: 1
+  },
+  {
+    question: "Complete the sentence: Neither John nor his friends _____ present.",
+    options: ["was", "is", "were", "has"],
+    answer: 2
+  },
+  {
+    question: "Choose the word opposite in meaning to 'expand'.",
+    options: ["Increase", "Stretch", "Contract", "Develop"],
+    answer: 2
+  },
+  {
+    question: "Which word is a noun?",
+    options: ["Beautiful", "Quickly", "Happiness", "Run"],
+    answer: 2
+  },
+  {
+    question: "Complete the sentence: If I _____ enough money, I would buy a laptop.",
+    options: ["have", "had", "has", "having"],
+    answer: 1
+  },
+  {
+    question: "Choose the word closest in meaning to 'assist'.",
+    options: ["Help", "Stop", "Ignore", "Delay"],
+    answer: 0
+  },
+  {
+    question: "Choose the correct sentence.",
+    options: [
+      "He don't like football.",
+      "He doesn't likes football.",
+      "He doesn't like football.",
+      "He not like football."
+    ],
+    answer: 2
+  },
+  {
+    question: "Choose the word opposite in meaning to 'victory'.",
+    options: ["Success", "Defeat", "Triumph", "Achievement"],
+    answer: 1
+  },
+  {
+    question: "Complete the sentence: The students _____ their assignment yesterday.",
+    options: ["submit", "submits", "submitted", "submitting"],
+    answer: 2
+  },
+  {
+    question: "Choose the word closest in meaning to 'brief'.",
+    options: ["Short", "Huge", "Difficult", "Heavy"],
+    answer: 0
+  },
+  {
+    question: "Which word is an adjective?",
+    options: ["Carefully", "Beauty", "Beautiful", "Beautify"],
+    answer: 2
+  },
+  {
+    question: "Complete the sentence: The news _____ surprising.",
+    options: ["were", "are", "was", "have"],
+    answer: 2
+  },
+  {
+    question: "Choose the word opposite in meaning to 'permit'.",
+    options: ["Allow", "Approve", "Forbid", "Accept"],
+    answer: 2
+  },
+  {
+    question: "Choose the correctly spelt word.",
+    options: ["Necessary", "Necesary", "Neccessary", "Necassary"],
+    answer: 0
+  },
+  {
+    question: "Complete the sentence: She is interested _____ science.",
+    options: ["on", "at", "in", "for"],
+    answer: 2
+  },
+  {
+    question: "Choose the word closest in meaning to 'fortunate'.",
+    options: ["Lucky", "Unhappy", "Poor", "Weak"],
+    answer: 0
+  },
+  {
+    question: "Choose the word closest in meaning to 'diligent'.",
+    options: ["Lazy", "Hardworking", "Careless", "Weak"],
+    answer: 1
+  },
+  {
+    question: "Choose the word opposite in meaning to 'scarce'.",
+    options: ["Rare", "Limited", "Abundant", "Small"],
+    answer: 2
+  },
+  {
+    question: "Complete the sentence: The children _____ playing outside.",
+    options: ["is", "was", "are", "has"],
+    answer: 2
+  },
+  {
+    question: "Choose the correctly spelt word.",
+    options: ["Privilege", "Privelege", "Priviledge", "Privilage"],
+    answer: 0
+  },
+  {
+    question: "Choose the word closest in meaning to 'commence'.",
+    options: ["End", "Begin", "Delay", "Stop"],
+    answer: 1
+  },
+  {
+    question: "Complete the sentence: I have lived here _____ 2020.",
+    options: ["for", "since", "from", "during"],
+    answer: 1
+  },
+  {
+    question: "Choose the word opposite in meaning to 'optimistic'.",
+    options: ["Hopeful", "Cheerful", "Pessimistic", "Confident"],
+    answer: 2
+  },
+  {
+    question: "Which word is an adverb?",
+    options: ["Quickly", "Quick", "Quickness", "Quicken"],
+    answer: 0
+  },
+  {
+    question: "Complete the sentence: Each of the boys _____ a book.",
+    options: ["have", "has", "having", "were"],
+    answer: 1
+  },
+  {
+    question: "Choose the word closest in meaning to 'obvious'.",
+    options: ["Clear", "Hidden", "Difficult", "Uncertain"],
+    answer: 0
+  },
+  {
+    question: "Choose the word opposite in meaning to 'temporary'.",
+    options: ["Brief", "Short", "Permanent", "Limited"],
+    answer: 2
+  },
+  {
+    question: "Complete the sentence: She _____ her homework before dinner.",
+    options: ["finish", "finished", "finishing", "finishes"],
+    answer: 1
+  },
+  {
+    question: "Choose the correctly spelt word.",
+    options: ["Environment", "Enviroment", "Envirounment", "Enviornment"],
+    answer: 0
+  },
+  {
+    question: "Choose the word closest in meaning to 'reluctant'.",
+    options: ["Unwilling", "Eager", "Excited", "Ready"],
+    answer: 0
+  },
+  {
+    question: "Complete the sentence: The teacher, together with her students, _____ present.",
+    options: ["were", "are", "was", "have"],
+    answer: 2
+  },
+  {
+    question: "Choose the word opposite in meaning to 'generous'.",
+    options: ["Kind", "Selfish", "Helpful", "Friendly"],
+    answer: 1
+  },
+  {
+    question: "Which word is a verb?",
+    options: ["Beautiful", "Beauty", "Beautify", "Beautifully"],
+    answer: 2
+  },
+  {
+    question: "Complete the sentence: He is good _____ Mathematics.",
+    options: ["in", "on", "at", "for"],
+    answer: 2
+  },
+  {
+    question: "Choose the word closest in meaning to 'accurate'.",
+    options: ["Correct", "Wrong", "Rough", "Unclear"],
+    answer: 0
+  },
+  {
+    question: "Choose the word opposite in meaning to 'include'.",
+    options: ["Contain", "Add", "Exclude", "Accept"],
+    answer: 2
+  },
+  {
+    question: "Choose the word closest in meaning to 'vital'.",
+    options: ["Useless", "Essential", "Weak", "Ordinary"],
+    answer: 1
+  },
+  {
+    question: "Choose the word opposite in meaning to 'frequent'.",
+    options: ["Regular", "Rare", "Common", "Usual"],
+    answer: 1
+  },
+  {
+    question: "Complete the sentence: The boys _____ football every Saturday.",
+    options: ["plays", "play", "playing", "played"],
+    answer: 1
+  },
+  {
+    question: "Choose the correctly spelt word.",
+    options: ["Separate", "Seperate", "Seperrate", "Separete"],
+    answer: 0
+  },
+  {
+    question: "Choose the word closest in meaning to 'brilliant'.",
+    options: ["Dull", "Intelligent", "Weak", "Slow"],
+    answer: 1
+  },
+  {
+    question: "Complete the sentence: By this time tomorrow, we _____ the examination.",
+    options: ["finish", "finished", "will have finished", "finishing"],
+    answer: 2
+  },
+  {
+    question: "Choose the word opposite in meaning to 'humble'.",
+    options: ["Modest", "Proud", "Quiet", "Simple"],
+    answer: 1
+  },
+  {
+    question: "Which word is a pronoun?",
+    options: ["Quickly", "They", "Beautiful", "Run"],
+    answer: 1
+  },
+  {
+    question: "Complete the sentence: The woman _____ car was stolen reported to the police.",
+    options: ["who", "whose", "whom", "which"],
+    answer: 1
+  },
+  {
+    question: "Choose the word closest in meaning to 'concise'.",
+    options: ["Brief", "Long", "Confusing", "Difficult"],
+    answer: 0
+  },
+  {
+    question: "Choose the word opposite in meaning to 'rigid'.",
+    options: ["Hard", "Flexible", "Strong", "Firm"],
+    answer: 1
+  },
+  {
+    question: "Complete the sentence: I wish I _____ taller.",
+    options: ["am", "was", "were", "be"],
+    answer: 2
+  },
+  {
+    question: "Choose the correctly spelt word.",
+    options: ["Embarrass", "Embarass", "Embarras", "Embaras"],
+    answer: 0
+  },
+  {
+    question: "Choose the word closest in meaning to 'hostile'.",
+    options: ["Friendly", "Unfriendly", "Helpful", "Gentle"],
+    answer: 1
+  },
+  {
+    question: "Complete the sentence: Neither of the answers _____ correct.",
+    options: ["are", "were", "is", "have"],
+    answer: 2
+  },
+  {
+    question: "Choose the word opposite in meaning to 'transparent'.",
+    options: ["Clear", "Visible", "Opaque", "Bright"],
+    answer: 2
+  },
+  {
+    question: "Which word is a conjunction?",
+    options: ["Although", "Quickly", "Beautiful", "House"],
+    answer: 0
+  },
+  {
+    question: "Complete the sentence: She has been studying _____ three hours.",
+    options: ["since", "for", "at", "from"],
+    answer: 1
+  },
+  {
+    question: "Choose the word closest in meaning to 'abandon'.",
+    options: ["Leave", "Keep", "Build", "Repair"],
+    answer: 0
+  },
+  {
+    question: "Choose the word opposite in meaning to 'artificial'.",
+    options: ["False", "Natural", "Fake", "Manufactured"],
+    answer: 1
+  },
+  {
+    question: "Complete the sentence: The news was _____ by everyone.",
+    options: ["hear", "heard", "hearing", "hears"],
+    answer: 1
+  },
+  {
+    question: "Choose the correctly spelt word.",
+    options: ["Maintenance", "Maintainance", "Maintenence", "Maintanance"],
+    answer: 0
+  },
+  {
+    question: "Choose the word closest in meaning to 'obtain'.",
+    options: ["Lose", "Acquire", "Destroy", "Reject"],
+    answer: 1
+  },
+  {
+    question: "Complete the sentence: If she had studied harder, she _____ the examination.",
+    options: ["passes", "would pass", "would have passed", "will pass"],
+    answer: 2
+  },
+  {
+    question: "Choose the word opposite in meaning to 'generous'.",
+    options: ["Kind", "Stingy", "Helpful", "Liberal"],
+    answer: 1
+  },
+  {
+    question: "Which word is an adjective?",
+    options: ["Strength", "Strong", "Strengthen", "Strongly"],
+    answer: 1
+  },
+  {
+    question: "Complete the sentence: He arrived _____ than I expected.",
+    options: ["early", "earlier", "earliest", "more early"],
+    answer: 1
+  },
+  {
+    question: "Choose the word closest in meaning to 'adequate'.",
+    options: ["Insufficient", "Enough", "Tiny", "Excessive"],
+    answer: 1
+  },
+  {
+    question: "Choose the word opposite in meaning to 'superior'.",
+    options: ["Better", "Higher", "Inferior", "Excellent"],
+    answer: 2
+  },
+  {
+    question: "Complete the sentence: The committee _____ decided to postpone the meeting.",
+    options: ["have", "has", "are", "were"],
+    answer: 1
+  },
+  {
+    question: "Choose the correctly spelt word.",
+    options: ["Questionnaire", "Questionaire", "Questionnair", "Questonnaire"],
+    answer: 0
+  },
+  {
+    question: "Choose the word closest in meaning to 'relieve'.",
+    options: ["Ease", "Increase", "Create", "Cause"],
+    answer: 0
+  },
+  {
+    question: "Complete the sentence: The students were punished _____ their lateness.",
+    options: ["because", "because of", "although", "despite"],
+    answer: 1
+  },
+  {
+    question: "Choose the word opposite in meaning to 'permanent'.",
+    options: ["Lasting", "Temporary", "Stable", "Fixed"],
+    answer: 1
+  },
+  {
+    question: "Which word is an adverb?",
+    options: ["Careful", "Carefully", "Care", "Caring"],
+    answer: 1
+  },
+  {
+    question: "Complete the sentence: She speaks English _____ than her brother.",
+    options: ["well", "better", "best", "good"],
+    answer: 1
+  },
+  {
+    question: "Choose the word closest in meaning to 'preserve'.",
+    options: ["Protect", "Destroy", "Waste", "Remove"],
+    answer: 0
+  },
+  {
+    question: "Choose the word opposite in meaning to 'ancient'.",
+    options: ["Old", "Modern", "Historic", "Former"],
+    answer: 1
+  },
+  {
+    question: "Complete the sentence: The teacher asked the students _____ they understood the lesson.",
+    options: ["whether", "because", "unless", "although"],
+    answer: 0
+  },
+  {
+    question: "Choose the correctly spelt word.",
+    options: ["Conscience", "Consciense", "Consience", "Conscince"],
+    answer: 0
+  },
+  {
+    question: "Choose the word closest in meaning to 'terminate'.",
+    options: ["Begin", "Continue", "End", "Start"],
+    answer: 2
+  }
+],
+
+    "Mathematics": [
+      {
+        question: "What is 15 × 4?",
+        options: ["45", "50", "60", "75"],
+        answer: 2
+      }
+    ],
+
+    "Physics": [
+      {
+        question: "Which of these is a unit of force?",
+        options: ["Joule", "Newton", "Watt", "Pascal"],
+        answer: 1
+      }
+    ],
+
+    "Chemistry": [
+      {
+        question: "What is the chemical symbol for oxygen?",
+        options: ["O", "Ox", "C", "Og"],
+        answer: 0
+      }
+    ],
+
+    "Biology": [
+      {
+        question: "Which organ pumps blood around the human body?",
+        options: ["Liver", "Heart", "Lung", "Kidney"],
+        answer: 1
+      }
+    ]
+
+    };
+
+module.exports = questionBank;

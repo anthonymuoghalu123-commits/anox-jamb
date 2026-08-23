@@ -1,0 +1,485 @@
+const express = require('express');
+const questionBank = require('./questions');
+
+const app = express();
+const PORT = 3000;
+
+const subjects = [
+  "English Language",
+  "Mathematics",
+  "Physics",
+  "Chemistry",
+  "Biology",
+  "Economics",
+  "Government",
+  "Literature in English",
+  "Geography",
+  "Commerce",
+  "Accounting",
+  "Christian Religious Studies",
+  "Islamic Religious Studies",
+  "Agricultural Science",
+  "Computer Studies",
+  "Civic Education",
+  "History",
+  "French",
+  "Yoruba",
+  "Igbo",
+  "Hausa"
+];
+
+app.get('/', (req, res) => {
+  res.redirect('/anox');
+});
+
+app.get('/anox', (req, res) => {
+  res.send(`
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JAMB Practice • ANOX</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f7fb;
+      color: #172033;
+    }
+
+    #splash {
+      position: fixed;
+      inset: 0;
+      background: #0b5cff;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      transition: opacity 0.5s ease;
+      animation: hideSplash 0.5s ease 2s forwards;    
+}
+
+    #splash h1 {
+      font-size: 38px;
+      margin: 0;
+      letter-spacing: 2px;
+    }
+
+    .tagline {
+      margin-top: 8px;
+      opacity: 0.85;
+    }
+
+    .loader {
+      width: 35px;
+      height: 35px;
+      border: 4px solid rgba(255,255,255,0.35);
+      border-top: 4px solid white;
+      border-radius: 50%;
+      margin-top: 25px;
+      animation: spin 0.8s linear infinite;
+    }
+
+    .powered {
+      margin-top: 35px;
+      font-size: 13px;
+      opacity: 0.75;
+      letter-spacing: 1px;
+    }
+
+    .powered strong {
+      font-size: 15px;
+      letter-spacing: 2px;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    @keyframes hideSplash {
+  0%, 70% {
+    opacity: 1;
+    visibility: visible;
+  }
+  100% {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+}
+
+    .header {
+      background: #0b5cff;
+      color: white;
+      padding: 28px 20px;
+      border-radius: 0 0 25px 25px;
+    }
+
+    .header h1 {
+      margin: 0 0 8px;
+      font-size: 28px;
+    }
+
+    .header p {
+      margin: 0;
+      opacity: 0.9;
+    }
+
+    .container {
+      padding: 22px 18px;
+    }
+
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 18px;
+      margin-bottom: 18px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.06);
+    }
+
+    .card h2 {
+      margin-top: 0;
+    }
+
+    .start-btn {
+      width: 100%;
+      border: none;
+      padding: 16px;
+      border-radius: 14px;
+      background: #0b5cff;
+      color: white;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .subjects {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .subject {
+      padding: 15px 10px;
+      background: #eef4ff;
+      border-radius: 14px;
+      text-align: center;
+      font-weight: bold;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .subject input {
+      margin-right: 6px;
+    }
+
+    .selection-count {
+      text-align: center;
+      font-weight: bold;
+      margin: 18px 0;
+    }
+
+    .back-btn {
+      width: 100%;
+      border: none;
+      padding: 14px;
+      border-radius: 14px;
+      background: #e8edf5;
+      color: #172033;
+      font-size: 16px;
+      font-weight: bold;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+
+    .footer {
+      text-align: center;
+      color: #7a8496;
+      font-size: 13px;
+      padding: 10px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- SPLASH SCREEN -->
+  <div id="splash">
+    <h1>JAMB</h1>
+    <p class="tagline">Practice smarter</p>
+
+    <div class="loader"></div>
+
+    <p class="powered">
+      Powered by <strong>ANOX</strong>
+    </p>
+  </div>
+
+  <!-- HEADER -->
+  <div class="header">
+    <h1>JAMB Practice 📚</h1>
+    <p>Prepare smarter. Practice better.</p>
+  </div>
+
+  <!-- HOME -->
+  <div class="container" id="home">
+
+    <div class="card">
+      <h2>Ready to practice?</h2>
+      <p>Choose your subjects and start practicing JAMB-style questions.</p>
+
+    <button class="start-btn" onclick="document.getElementById('home').style.display='none'; document.getElementById('selection').style.display='block';">      
+
+  Start Practice
+      </button>
+    </div>
+
+    <div class="card">
+      <h2>JAMB Subjects 📚</h2>
+      <p>Choose from our available subjects.</p>
+
+      <div class="subjects">
+        ${subjects.map(subject => `
+          <div class="subject">${subject}</div>
+        `).join('')}
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Your Progress 📊</h2>
+      <p>Questions answered: 0</p>
+      <p>Best score: 0%</p>
+    </div>
+
+  </div>
+
+  <!-- SUBJECT SELECTION -->
+  <div class="container" id="selection" style="display: none;">
+
+    <div class="card">
+      <h2>Choose Your Subjects 📚</h2>
+      <p>Select exactly 4 subjects for your practice test.</p>
+
+      <div class="subjects">
+        ${subjects.map((subject, index) => `
+          <label class="subject">
+            <input
+              type="checkbox"
+              value="${index}"
+              onchange="updateSelection()"
+            >
+            ${subject}
+          </label>
+        `).join('')}
+      </div>
+
+      <p class="selection-count" id="selection-count">
+        0 / 4 selected
+      </p>
+
+      <button class="start-btn" onclick="beginTest()">
+        Start Test
+      </button>
+
+      <button class="back-btn" onclick="goHome()">
+        ← Back
+      </button>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    JAMB Practice • Powered by ANOX
+  </div>
+
+  <script>
+const questionBank = ${JSON.stringify(questionBank)};
+
+  const subjectList = ["English Language", "Mathematics", "Physics", "Chemistry", "Biology", "Economics", "Government", "Literature in English", "Geography"];
+
+    function startPractice() {  
+    document.getElementById('home').style.display = 'none';
+      document.getElementById('selection').style.display = 'block';
+
+      window.scrollTo(0, 0);
+    }
+
+    function goHome() {
+      document.getElementById('selection').style.display = 'none';
+      document.getElementById('home').style.display = 'block';
+
+      window.scrollTo(0, 0);
+    }
+
+    function updateSelection() {
+      const selected = document.querySelectorAll(
+        '#selection input[type="checkbox"]:checked'
+      );
+
+      const count = document.getElementById('selection-count');
+
+      count.textContent = selected.length + ' / 4 selected';
+      
+const checkboxes = document.querySelectorAll(
+        '#selection input[type="checkbox"]'
+      );
+
+      checkboxes.forEach(input => {
+
+        if (!input.checked && selected.length >= 4) {
+          input.disabled = true;
+        } else {
+          input.disabled = false;
+        }
+
+      });
+    }
+
+    function beginTest() {
+      
+  const selected = document.querySelectorAll(
+    '#selection input[type="checkbox"]:checked'
+  );
+
+  // removed
+
+  if (selected.length !== 4) {
+    alert('Please select exactly 4 subjects.');
+    return;
+  }
+
+let selectedSubjects;
+
+selectedSubjects = Array.from(selected).map(input => {
+  return subjectList[Number(input.value)];
+});
+
+  let questions = [];
+
+  selectedSubjects.forEach(subject => {
+
+  if (questionBank[subject]) {
+
+    const required = subject === "English Language" ? 60 : 40;
+
+    const shuffled = [...questionBank[subject]]
+      .sort(() => Math.random() - 0.5);
+
+    shuffled.slice(0, required).forEach(question => {
+
+      questions.push({
+        ...question,
+        subject: subject
+      });
+
+    });
+  }
+
+});
+
+  if (questions.length === 0) {
+    alert('Questions for your selected subjects are not available yet.');
+    return;
+  }
+
+  let currentQuestion = 0;
+  let score = 0;
+
+  // removed
+
+  document.getElementById("selection").innerHTML = '<div class="card"><p id="question-subject"></p><h2 id="question-number"></h2><p id="question-text"></p><div id="answer-options"></div><button id="next-button" class="start-btn" style="margin-top:20px;"onclick="nextQuestion()">Next</button></div>';
+
+  function showQuestion() {
+
+    const question = questions[currentQuestion];
+
+    document.getElementById('question-subject').textContent =
+      question.subject;
+
+    document.getElementById('question-number').textContent =
+      'Question ' + (currentQuestion + 1) + ' of ' + questions.length;
+
+    document.getElementById('question-text').textContent =
+      question.question;
+
+    const optionsContainer =
+      document.getElementById('answer-options');
+
+    optionsContainer.innerHTML = '';
+
+    question.options.forEach((option, index) => {
+
+      const button = document.createElement('button');
+
+      button.textContent = option;
+
+      button.style.width = '100%';
+      button.style.padding = '15px';
+      button.style.marginTop = '10px';
+      button.style.border = '1px solid #d7deea';
+      button.style.borderRadius = '12px';
+      button.style.background = 'white';
+      button.style.fontSize = '16px';
+
+      button.onclick = () => {
+
+        const allButtons =
+          optionsContainer.querySelectorAll('button');
+
+        allButtons.forEach(btn => {
+          btn.disabled = true;
+        });
+
+        if (index === question.answer) {
+          score++;
+          button.style.background = '#d8f8df';
+        } else {
+          button.style.background = '#ffdcdc';
+        }
+      };
+
+      optionsContainer.appendChild(button);
+
+    });
+  }
+
+  window.nextQuestion = function() {
+
+    currentQuestion++;
+
+    if (currentQuestion >= questions.length) {
+
+document.getElementById("selection").innerHTML = '<div class="card" style="text-align:center;"><h2>Test Complete 🎉</h2><p>Your score:</p><h1>' + score + ' / ' + questions.length + '</h1><button class="start-btn" onclick="location.reload()">Practice Again</button></div>';      
+
+      return;
+    }
+
+    showQuestion();
+  };
+
+
+  showQuestion();
+}
+
+   // Splash screen is handled by CSS animation.    
+
+  </script>
+
+</body>
+</html>
+  `);
+});
+
+app.listen(PORT, () => {
+  console.log(`ANOX JAMB app running at http://localhost:${PORT}/anox`);
+});
