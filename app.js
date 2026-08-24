@@ -1263,3 +1263,136 @@ function openNovel(index) {
 
   window.scrollTo(0, 0);
 }
+
+/* =========================
+   ANOX GOOGLE AUTH STARTUP
+   ========================= */
+
+const ANOX_GOOGLE_CLIENT_ID =
+  '493300249244-497u57o2ol526sh9qc7q5taclblprtq9.apps.googleusercontent.com';
+
+function showAnoxSplash() {
+  const account = document.getElementById('account-screen');
+  const splash = document.getElementById('splash');
+  const home = document.getElementById('home');
+
+  if (account) account.style.display = 'none';
+
+  if (splash) {
+    splash.style.display = 'flex';
+    splash.style.animation = 'none';
+    splash.style.opacity = '1';
+    splash.style.visibility = 'visible';
+
+    setTimeout(() => {
+      splash.style.opacity = '0';
+
+      setTimeout(() => {
+        splash.style.display = 'none';
+
+        if (home) home.style.display = 'block';
+      }, 500);
+
+    }, 2000);
+  }
+}
+function showAccountScreen() {
+  const account = document.getElementById('account-screen');
+  const splash = document.getElementById('splash');
+  const home = document.getElementById('home');
+
+  if (splash) splash.style.display = 'none';
+  if (home) home.style.display = 'none';
+  if (account) account.style.display = 'flex';
+
+  setupGoogleSignIn();
+}
+
+async function handleGoogleCredential(response) {
+  const status = document.getElementById('google-auth-status');
+
+  if (status) {
+    status.textContent = 'Google callback received ✓';
+  }
+
+  console.log('GOOGLE CALLBACK RECEIVED');
+
+  if (status) {
+    status.textContent = 'Signing you in...';
+  }
+
+  try {
+    const result = await fetch('/api/auth/google', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        credential: response.credential
+      })
+    });
+
+    const data = await result.json();
+
+    if (!result.ok || !data.success) {
+      throw new Error(data.error || 'Google sign-in failed');
+    }
+
+    showAnoxSplash();
+
+  } catch (error) {
+    console.error('Google sign-in error:', error);
+
+    if (status) {
+      status.textContent =
+        'Sign-in failed. Please try again.';
+    }
+  }
+}
+
+function setupGoogleSignIn() {
+  const button = document.getElementById('google-signin-button');
+
+  if (!button) return;
+
+  if (!window.google || !google.accounts || !google.accounts.id) {
+    setTimeout(setupGoogleSignIn, 300);
+    return;
+  }
+
+  button.innerHTML = '';
+
+  google.accounts.id.initialize({
+    client_id: ANOX_GOOGLE_CLIENT_ID,
+    callback: handleGoogleCredential,
+    ux_mode: 'popup'
+  });
+
+  google.accounts.id.renderButton(button, {
+    theme: 'filled_blue',
+    size: 'large',
+    text: 'continue_with',
+    shape: 'rectangular',
+    width: 300
+  });
+}
+
+async function initializeAnoxAuth() {
+  try {
+    const response = await fetch('/api/auth/me');
+    const data = await response.json();
+
+    if (data.authenticated) {
+      showAnoxSplash();
+    } else {
+      showAccountScreen();
+    }
+
+  } catch (error) {
+    console.error('Authentication check failed:', error);
+    showAccountScreen();
+  }
+}
+
+window.addEventListener('load', initializeAnoxAuth);
+
