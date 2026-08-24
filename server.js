@@ -2,6 +2,7 @@ const express = require('express');
 const fs = require('fs');
 const questionBank = require('./questions');
 const novels = require('./data/novels.json');
+const waec = require('./data/waec.json');
 
 
 
@@ -31,7 +32,7 @@ const subjects = [
 ];
 
 app.get('/api/data', (req, res) => {
-  res.json({ questionBank, subjects, novels: novels.novels });
+  res.json({ questionBank, subjects, novels: novels.novels, waec });
 });
 app.get('/', (req, res) => {
   res.redirect('/anox');

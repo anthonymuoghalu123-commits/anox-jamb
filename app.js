@@ -1,11 +1,13 @@
 let questionBank = {};
 let subjectList = [];
 let novels = [];
+let waecBank = {};
 
 fetch("/api/data").then(r => r.json()).then(data => {
   questionBank = data.questionBank;
   subjectList = data.subjects;
   novels = data.novels || [];
+  waecBank = data.waec || {};
   renderHomeSubjects();
 }).catch(error => {
   console.error("Failed to load app data:", error);
@@ -251,6 +253,7 @@ function startPractice() {
       document.getElementById('selection').style.display = 'none';
       document.getElementById('settings').style.display = 'none';
       document.getElementById('novels').style.display = 'none';
+      document.getElementById('waec').style.display = 'none';
       document.getElementById('home').style.display = 'block';
 
       window.scrollTo(0, 0);
@@ -914,6 +917,282 @@ window.nextQuestion = function() {
 
 
    // Splash screen is handled by CSS animation.
+
+
+
+function openWaec() {
+  document.getElementById('home').style.display = 'none';
+  document.getElementById('selection').style.display = 'none';
+  document.getElementById('settings').style.display = 'none';
+  document.getElementById('novels').style.display = 'none';
+
+  const waecScreen = document.getElementById('waec');
+  if (!waecScreen) return;
+
+  waecScreen.style.display = 'block';
+
+  const subjects = [
+    "English Language",
+    "Mathematics",
+    "Physics",
+    "Chemistry",
+    "Biology",
+    "Economics",
+    "Government",
+    "Literature in English",
+    "Geography",
+    "Commerce",
+    "Accounting",
+    "Agricultural Science",
+    "Computer Studies",
+    "Civic Education",
+    "History"
+  ];
+
+  const list = document.getElementById('waec-subjects');
+
+  list.innerHTML = subjects.map(subject =>
+    '<button class="start-btn" type="button" ' +
+    'style="width:100%;margin-top:12px;text-align:left;" ' +
+    'onclick="startWaecPractice(\'' + subject.replace("'", "\\'") + '\')">' +
+    '📝 ' + subject +
+    '</button>'
+  ).join('');
+}
+
+
+let waecQuestions = [];
+let waecCurrentQuestion = 0;
+let waecAnswers = {};
+let waecSubject = '';
+
+function startWaecPractice(subject) {
+  const bank = waecBank[subject];
+
+  if (!bank || bank.length === 0) {
+    alert('No WAEC questions available for ' + subject + ' yet.');
+    return;
+  }
+
+  waecSubject = subject;
+
+  // Shuffle all questions and randomly select 30 for this attempt
+  waecQuestions = [...bank]
+    .sort(() => Math.random() - 0.5)
+    .slice(0, 30);
+
+  waecCurrentQuestion = 0;
+  waecAnswers = {};
+
+  document.getElementById('home').style.display = 'none';
+  document.getElementById('waec').style.display = 'none';
+  document.getElementById('settings').style.display = 'none';
+  document.getElementById('novels').style.display = 'none';
+  document.getElementById('selection').style.display = 'block';
+
+  showWaecQuestion();
+}
+
+function showWaecQuestion() {
+  const question = waecQuestions[waecCurrentQuestion];
+
+  if (!question) {
+    finishWaecTest();
+    return;
+  }
+
+  const selection = document.getElementById('selection');
+
+  selection.innerHTML =
+    '<div class="card">' +
+      '<button class="syllabus-back-icon" type="button" onclick="event.preventDefault(); event.stopPropagation(); confirmWaecExit(); return false;">←</button>' +
+      '<p style="margin-top:10px;">WAEC Practice • ' + waecSubject + '</p>' +
+      '<h2>Question ' + (waecCurrentQuestion + 1) + ' of ' +
+        waecQuestions.length + '</h2>' +
+      '<p style="font-size:18px;font-weight:600;">' +
+        question.question +
+      '</p>' +
+      '<div id="waec-answer-options"></div>' +
+      '<button id="waec-next-button" class="start-btn" ' +
+        'style="width:100%;margin-top:20px;" disabled>' +
+        (waecCurrentQuestion === waecQuestions.length - 1
+          ? 'Finish Test'
+          : 'Next Question') +
+      '</button>' +
+    '</div>';
+
+  const options = document.getElementById('waec-answer-options');
+
+  question.options.forEach((option, index) => {
+    const button = document.createElement('button');
+
+    button.type = 'button';
+    button.textContent = option;
+    button.style.width = '100%';
+    button.style.padding = '15px';
+    button.style.marginTop = '10px';
+    button.style.border = '1px solid #d7deea';
+    button.style.borderRadius = '12px';
+    const darkMode = document.body.classList.contains('dark-mode');
+
+    button.style.background = darkMode ? '#1f2937' : 'white';
+    button.style.color = darkMode ? 'white' : '#172033';
+    button.style.fontSize = '16px';
+
+    button.onclick = function() {
+      waecAnswers[waecCurrentQuestion] = index;
+
+      const darkMode = document.body.classList.contains('dark-mode');
+
+      options.querySelectorAll('button').forEach(btn => {
+        btn.style.background = darkMode ? '#1f2937' : 'white';
+        btn.style.color = darkMode ? 'white' : '#172033';
+      });
+
+      button.style.background = darkMode ? '#334d70' : '#e4ecff';
+      button.style.color = darkMode ? 'white' : '#172033';
+
+      document.getElementById('waec-next-button').disabled = false;
+    };
+
+    options.appendChild(button);
+  });
+
+  document.getElementById('waec-next-button').onclick = function() {
+    if (waecAnswers[waecCurrentQuestion] === undefined) return;
+
+    waecCurrentQuestion++;
+    showWaecQuestion();
+  };
+}
+
+function finishWaecTest() {
+  let score = 0;
+
+  waecQuestions.forEach((question, index) => {
+    if (waecAnswers[index] === question.answer) {
+      score++;
+    }
+  });
+
+  document.getElementById('selection').innerHTML =
+    '<div class="card" style="text-align:center;">' +
+      '<h2>WAEC Test Complete 🎉</h2>' +
+      '<p>Your score:</p>' +
+      '<h1>' + score + ' / ' + waecQuestions.length + '</h1>' +
+      '<button class="start-btn" style="width:100%;" ' +
+        'onclick="showWaecCorrections()">' +
+        'View Corrections</button>' +
+      '<button class="back-btn" style="width:100%;margin-top:10px;" ' +
+        'onclick="openWaec()">' +
+        'Back to WAEC</button>' +
+    '</div>';
+}
+
+function showWaecCorrections() {
+  let html =
+    '<div class="card">' +
+      '<h2>WAEC Corrections</h2>';
+
+  waecQuestions.forEach((question, index) => {
+    const chosen = waecAnswers[index];
+
+    html +=
+      '<div style="text-align:left;margin-top:25px;">' +
+        '<p><strong>Question ' + (index + 1) + '</strong></p>' +
+        '<p>' + question.question + '</p>' +
+        '<p>Your answer: ' +
+          (chosen !== undefined ? question.options[chosen] : 'Not answered') +
+        '</p>' +
+        '<p>Correct answer: <strong>' +
+          question.options[question.answer] +
+        '</strong></p>' +
+      '</div>';
+  });
+
+  html +=
+    '<button class="back-btn" style="width:100%;margin-top:20px;" ' +
+      'onclick="openWaec()">← Back to WAEC</button>' +
+    '</div>';
+
+  document.getElementById('selection').innerHTML = html;
+}
+
+let waecPracticeActive = false;
+
+window.addEventListener('popstate', function() {
+  if (waecPracticeActive) {
+    history.pushState(null, '', location.href);
+    confirmWaecExit();
+  }
+});
+
+function confirmWaecExit() {
+  const oldOverlay = document.getElementById('waec-exit-confirmation');
+  if (oldOverlay) oldOverlay.remove();
+
+  const overlay = document.createElement('div');
+  overlay.id = 'waec-exit-confirmation';
+
+  overlay.style.position = 'fixed';
+  overlay.style.top = '0';
+  overlay.style.left = '0';
+  overlay.style.width = '100%';
+  overlay.style.height = '100%';
+  overlay.style.background = 'rgba(0,0,0,0.55)';
+  overlay.style.display = 'flex';
+  overlay.style.alignItems = 'center';
+  overlay.style.justifyContent = 'center';
+  overlay.style.zIndex = '9999';
+  overlay.style.padding = '20px';
+  overlay.style.boxSizing = 'border-box';
+
+  const darkMode = document.body.classList.contains('dark-mode');
+  const cardBackground = darkMode ? '#1e1e1e' : 'white';
+  const cardColor = darkMode ? '#ffffff' : '#111111';
+  const cancelBackground = darkMode ? '#2a2a2a' : 'white';
+  const cancelColor = darkMode ? '#ffffff' : '#111111';
+  const cancelBorder = darkMode ? '#555555' : '#d7deea';
+  const messageColor = darkMode ? '#cccccc' : '#666666';
+
+  overlay.innerHTML =
+    '<div style="background:' + cardBackground + ';color:' + cardColor + ';width:100%;max-width:380px;border-radius:20px;padding:25px;text-align:center;box-shadow:0 10px 30px rgba(0,0,0,0.25);">' +
+      '<div style="font-size:42px;margin-bottom:10px;">⚠️</div>' +
+      '<h2 style="margin:0 0 10px;">Exit WAEC Practice?</h2>' +
+      '<p style="margin:0 0 25px;color:' + messageColor + ';">Are you sure you want to exit this practice?</p>' +
+      '<div style="display:flex;gap:10px;">' +
+        '<button id="waec-cancel-exit" style="flex:1;padding:13px;border:1px solid ' + cancelBorder + ';border-radius:12px;background:' + cancelBackground + ';color:' + cancelColor + ';font-size:16px;">Cancel</button>' +
+        '<button id="waec-confirm-exit" style="flex:1;padding:13px;border:none;border-radius:12px;background:#0b5cff;color:white;font-size:16px;">Exit Practice</button>' +
+      '</div>' +
+    '</div>';
+
+  document.body.appendChild(overlay);
+
+  document.getElementById('waec-cancel-exit').onclick = function() {
+    overlay.remove();
+  };
+
+  document.getElementById('waec-confirm-exit').onclick = function() {
+    overlay.remove();
+
+    waecQuestions = [];
+    waecCurrentQuestion = 0;
+    waecAnswers = {};
+    waecSubject = '';
+    waecPracticeActive = false;
+
+    const selection = document.getElementById('selection');
+    if (selection) {
+      selection.innerHTML = '';
+      selection.style.display = 'none';
+    }
+
+    document.getElementById('waec').style.display = 'none';
+    document.getElementById('home').style.display = 'block';
+
+    window.scrollTo(0, 0);
+  };
+}
 
 
 function openNovels() {

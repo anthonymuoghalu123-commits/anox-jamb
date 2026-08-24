@@ -227,7 +227,7 @@
         <p>Read concise summaries of JAMB novels.</p>
       </div>
 
-      <div class="card home-feature-card">
+      <div class="card home-feature-card" onclick="openWaec()">
         <div class="home-feature-icon">📝</div>
         <h3>WAEC Practice</h3>
         <p>Practice WAEC-style questions.</p>
@@ -308,6 +308,19 @@
       <p>Select a novel to view its summary.</p>
 
       <div id="novels-list"></div>
+    </div>
+  </div>
+
+  <!-- WAEC PRACTICE -->
+  <div class="container" id="waec" style="display:none;">
+    <div class="card">
+      <button class="syllabus-back-icon" type="button"
+        onclick="document.getElementById('waec').style.display='none'; document.getElementById('home').style.display='block';">←</button>
+
+      <h2>📝 WAEC Practice</h2>
+      <p>Choose a subject to begin your WAEC practice.</p>
+
+      <div id="waec-subjects"></div>
     </div>
   </div>
 
