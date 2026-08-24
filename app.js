@@ -1352,6 +1352,7 @@ async function handleGoogleCredential(response) {
       throw new Error(data.error || 'Google sign-in failed');
     }
 
+    await updateHomeGreeting();
     showAnoxSplash();
 
   } catch (error) {
@@ -1407,6 +1408,43 @@ async function initializeAnoxAuth() {
     showAccountScreen();
   }
 }
+
+
+async function updateHomeGreeting() {
+  const greeting = document.getElementById('home-greeting');
+
+  if (!greeting) return;
+
+  try {
+    const response = await fetch('/api/auth/me');
+    const data = await response.json();
+
+    if (!data.authenticated || !data.user) return;
+
+    const fullName = (data.user.name || '').trim();
+    const firstName = fullName.split(/\s+/)[0];
+
+    const hour = new Date().getHours();
+
+    let timeGreeting = 'Good evening';
+
+    if (hour < 12) {
+      timeGreeting = 'Good morning';
+    } else if (hour < 17) {
+      timeGreeting = 'Good afternoon';
+    }
+
+    greeting.textContent =
+      firstName
+        ? timeGreeting + ', ' + firstName + ' 👋'
+        : timeGreeting + ' 👋';
+
+  } catch (error) {
+    console.error('Home greeting update failed:', error);
+  }
+}
+
+window.addEventListener('load', updateHomeGreeting);
 
 window.addEventListener('load', initializeAnoxAuth);
 

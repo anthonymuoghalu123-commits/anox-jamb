@@ -298,6 +298,27 @@
       background: rgba(11,92,255,0.09);
     }
 
+
+    /* ANOX HOME QUICK ACCESS */
+    .home-feature-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      align-items: stretch;
+    }
+
+    .home-feature-card {
+      width: 100%;
+      box-sizing: border-box;
+      margin: 0;
+    }
+
+    .home-feature-card:nth-child(3) {
+      grid-column: 1 / -1;
+      width: 50%;
+      justify-self: center;
+    }
+
     body.dark-mode .subjects .subject {
       background: #2a2a2a !important;
 
@@ -361,8 +382,8 @@
 
     <!-- HOME HEADER -->
     <div class="header" style="position:relative;">
-      <h1>JAMB Practice 📚</h1>
-      <p>Prepare smarter. Practice better.</p>
+      <h1 id="home-greeting">Good evening 👋</h1>
+      <p>Ready to continue your prep?</p>
 
       <button id="settings-button" type="button"
         style="position:absolute;top:15px;right:15px;font-size:24px;border:none;background:none;cursor:pointer;">
@@ -370,40 +391,44 @@
       </button>
     </div>
 
+    <!-- JAMB PREP -->
+    <div class="card home-prep-card">
+      <div class="home-prep-icon">🎯</div>
+      <h2>JAMB PREP</h2>
+      <p>Your journey to a better JAMB score starts here. 🚀</p>
+    </div>
 
+    <!-- QUICK ACCESS -->
+    <h3 class="quick-access-title">Quick Access</h3>
 
     <div class="home-feature-grid">
 
       <div class="card home-feature-card" onclick="startPractice()">
         <div class="home-feature-icon">📚</div>
         <h3>JAMB Practice</h3>
-        <p>Practice JAMB-style questions.</p>
       </div>
 
       <div class="card home-feature-card" onclick="openNovels()">
         <div class="home-feature-icon">📖</div>
         <h3>JAMB Novels</h3>
-        <p>Read concise summaries of JAMB novels.</p>
       </div>
 
-      <div class="card home-feature-card" onclick="openWaec()">
+      <div class="card home-feature-card" onclick="openWaec()"
+        style="grid-column:1 / -1;max-width:calc(50% - 8px);margin:0 auto;width:100%;">
         <div class="home-feature-icon">📝</div>
         <h3>WAEC Practice</h3>
-        <p>Practice WAEC-style questions.</p>
       </div>
 
     </div>
 
-    <div class="card">
-      <h2>Your Progress 📊</h2>
-      <p>Best JAMB Score</p>
+    <!-- BEST JAMB SCORE -->
+    <div class="card" style="text-align:center;margin-top:20px;">
+      <h2>🏆 Best JAMB Score</h2>
       <h1 id="progress-best">0 / 400</h1>
+      <p>Keep improving! 🚀</p>
     </div>
 
   </div>
-
-
-  
 
 
   <!-- SETTINGS -->
