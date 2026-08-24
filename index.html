@@ -24,7 +24,7 @@
       position: fixed;
       inset: 0;
       background: #0b5cff;
-      color: white;
+      color: #000000;
       display: none;
       flex-direction: column;
       align-items: center;
@@ -174,6 +174,130 @@
       font-size: 13px;
       padding: 10px;
     }
+    /* =========================
+       ANOX AUTH SCREEN
+       ========================= */
+
+    #account-screen {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100vh;
+      min-height: 100vh;
+      overflow-y: auto;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      background:
+        radial-gradient(circle at 15% 15%, rgba(11,92,255,0.22), transparent 32%),
+        radial-gradient(circle at 85% 85%, rgba(64,132,255,0.16), transparent 32%),
+        #f5f8ff;
+    }
+
+    .auth-card {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      max-width: 390px;
+      padding: 38px 26px 32px;
+      text-align: center;
+      background: rgba(255,255,255,0.94);
+      border: 1px solid rgba(11,92,255,0.08);
+      border-radius: 28px;
+      box-shadow: 0 24px 70px rgba(15,35,75,0.13);
+      backdrop-filter: blur(14px);
+    }
+
+    .auth-logo {
+      width: 68px;
+      height: 68px;
+      margin: 0 auto 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 21px;
+      background: #0b5cff;
+      color: white;
+      font-size: 34px;
+      font-weight: 900;
+      letter-spacing: -2px;
+      box-shadow: 0 12px 28px rgba(11,92,255,0.28);
+    }
+
+    .auth-card h1 {
+      margin: 0;
+      font-size: 30px;
+      color: #000000 !important;
+      letter-spacing: -0.8px;
+    }
+
+    .auth-tagline {
+      margin: 10px auto 28px;
+      max-width: 280px;
+      color: #000000 !important;
+      font-size: 15px;
+      line-height: 1.5;
+    }
+
+    .auth-divider {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 0 0 18px;
+      color: #000000 !important;
+      font-size: 12px;
+    }
+
+    .auth-divider::before,
+    .auth-divider::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: #e4e7ec;
+    }
+
+    .auth-divider span {
+      white-space: nowrap;
+    }
+
+    #google-signin-button {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      min-height: 44px;
+    }
+
+    #google-auth-status {
+      margin: 14px 0 0;
+      font-size: 13px;
+    }
+
+    .auth-glow {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(2px);
+      pointer-events: none;
+    }
+
+    .auth-glow-one {
+      width: 180px;
+      height: 180px;
+      top: -70px;
+      left: -60px;
+      background: rgba(11,92,255,0.10);
+    }
+
+    .auth-glow-two {
+      width: 220px;
+      height: 220px;
+      right: -90px;
+      bottom: -80px;
+      background: rgba(11,92,255,0.09);
+    }
+
     body.dark-mode .subjects .subject {
       background: #2a2a2a !important;
 
@@ -199,29 +323,41 @@
 
 <body>
 
-  <!-- ACCOUNT SCREEN -->
-  <div id="account-screen" style="display:flex; min-height:100vh; align-items:center; justify-content:center; padding:24px;">
-    <div class="card" style="width:100%; max-width:420px; text-align:center;">
-      <h1>Welcome to ANOX 👋</h1>
-      <p>Sign in to continue to your ANOX account.</p>
+  <!-- ANOX AUTH SCREEN -->
+  <div id="account-screen">
 
-      <div id="google-signin-button" style="display:flex; justify-content:center; align-items:center; width:100%; min-height:44px; margin-top:24px;"></div>
+    <div class="auth-glow auth-glow-one"></div>
+    <div class="auth-glow auth-glow-two"></div>
 
-      <p id="google-auth-status" style="margin-top:16px; font-size:14px;"></p>
+    <div class="auth-card">
+
+      <div class="auth-logo">A</div>
+
+      <h1>ANOX Prep</h1>
+
+      <p class="auth-tagline">
+        Your smarter JAMB preparation starts here.
+      </p>
+
+      <div class="auth-divider">
+        <span>Continue with</span>
+      </div>
+
+      <div id="google-signin-button"></div>
+
+      <p id="google-auth-status"></p>
+
     </div>
+
   </div>
 
   <!-- SPLASH SCREEN -->
   <div id="splash">
     <h1>ANOX PREPMATE</h1>
-
-    <button class="powered" type="button">
-      Powered by <strong>ANOX</strong>
-    </button>
   </div>
 
   <!-- HOME -->
-  <div class="container" id="home">
+  <div class="container" id="home" style="display:none;">
 
     <!-- HOME HEADER -->
     <div class="header" style="position:relative;">

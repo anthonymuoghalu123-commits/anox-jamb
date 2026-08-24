@@ -347,8 +347,18 @@ lastSelectedSubjects = Array.from(selected).map(input =>
 
     selectedQuestions.forEach(question => {
 
+      const correctOption = question.options[question.answer];
+
+      const shuffledOptions = [...question.options]
+        .sort(() => Math.random() - 0.5);
+
+      const newAnswerIndex =
+        shuffledOptions.indexOf(correctOption);
+
       questions.push({
         ...question,
+        options: shuffledOptions,
+        answer: newAnswerIndex,
         subject: subject
       });
 
@@ -901,6 +911,8 @@ window.nextQuestion = function() {
 
   window.showResults = function() {
 
+    updateBestJambScore();
+
     document.getElementById("selection").innerHTML =
       '<div class="card" style="text-align:center;">' +
       '<h2>Test Complete 🎉</h2>' +
@@ -1276,7 +1288,9 @@ function showAnoxSplash() {
   const splash = document.getElementById('splash');
   const home = document.getElementById('home');
 
+  // Keep the Home screen completely hidden during authentication/splash.
   if (account) account.style.display = 'none';
+  if (home) home.style.display = 'none';
 
   if (splash) {
     splash.style.display = 'flex';
