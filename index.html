@@ -299,6 +299,28 @@
     }
 
 
+
+    .syllabus-back-icon {
+      border: none;
+      background: none;
+      font-size: 28px;
+      font-weight: 900;
+      line-height: 1;
+      cursor: pointer;
+      padding: 4px 8px;
+      color: inherit;
+      text-shadow: 0.6px 0 0 currentColor;
+    }
+
+    .syllabus-back-icon:active {
+      transform: scale(0.92);
+    }
+
+
+    body.dark-mode #settings-button {
+      color: #ffffff !important;
+    }
+
     /* ANOX HOME QUICK ACCESS */
     .home-feature-grid {
       display: grid;
@@ -386,8 +408,8 @@
       <p>Ready to continue your prep?</p>
 
       <button id="settings-button" type="button"
-        style="position:absolute;top:15px;right:15px;font-size:24px;border:none;background:none;cursor:pointer;">
-        ⚙️
+        style="position:absolute;top:15px;right:15px;font-size:26px;font-weight:900;border:none;background:none;cursor:pointer;color:#000000;">
+        ⚙
       </button>
     </div>
 
@@ -464,6 +486,13 @@
         </button>
 
         <button class="start-btn" type="button"
+          onclick="openActivation()"
+          style="width:100%;margin-top:12px;text-align:left;">
+          🔑 App Activation
+        </button>
+
+        <button class="start-btn" type="button"
+          onclick="openSupport()"
           style="width:100%;margin-top:12px;text-align:left;">
           🆘 Support & Contact
         </button>
@@ -474,11 +503,161 @@
         </button>
 
         <button class="start-btn" type="button"
+          onclick="openAbout()"
           style="width:100%;margin-top:12px;text-align:left;">
           ℹ️ About ANOX Prep
         </button>
 
       </div>
+    </div>
+  </div>
+
+
+
+
+  <!-- APP ACTIVATION -->
+  <div class="container" id="activation" style="display:none;">
+    <div class="card">
+
+      <button class="syllabus-back-icon" type="button"
+        onclick="goSettings()"
+        aria-label="Back to Home">←</button>
+
+      <div style="text-align:center;margin-top:10px;">
+
+        <div style="font-size:48px;">🔑</div>
+
+        <h2>App Activation</h2>
+
+        <p style="line-height:1.7;">
+          Activate ANOX Prep to gain full access to every
+          JAMB and WAEC practice question.
+        </p>
+
+        <p style="line-height:1.7;font-size:14px;">
+          Enter your activation code below to unlock full access.
+        </p>
+
+        <input
+          id="activation-code"
+          type="text"
+          placeholder="Enter activation code"
+          autocomplete="off"
+          style="width:100%;box-sizing:border-box;padding:14px;
+                 margin-top:15px;border:1px solid #ccc;
+                 border-radius:10px;font-size:16px;text-align:center;">
+
+        <button
+          id="activate-button"
+          class="start-btn"
+          type="button"
+          onclick="activateApp()"
+          style="width:100%;margin-top:15px;">
+          🔓 Activate App
+        </button>
+
+        <p id="activation-message"
+          style="margin-top:15px;line-height:1.5;"></p>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SUPPORT & CONTACT -->
+  <div class="container" id="support" style="display:none;">
+    <div class="card">
+
+      <button class="syllabus-back-icon" type="button"
+        onclick="goSettings()"
+        aria-label="Back to Home">←</button>
+
+      <div style="text-align:center;margin-top:10px;">
+
+        <div style="font-size:48px;">🆘</div>
+
+        <h2>Support & Contact</h2>
+
+        <p style="line-height:1.7;">
+          Need help with ANOX Prep? ANOX Devs is here to help.
+          You can contact us about technical problems, bugs,
+          questions, or suggestions for improving the app.
+        </p>
+
+        <button class="start-btn" type="button"
+          onclick="window.location.href='mailto:anoxdevs@gmail.com?subject=ANOX%20Prep%20Support'"
+          style="width:100%;margin-top:18px;">
+          📧 Email Support
+        </button>
+
+        <button class="start-btn" type="button"
+          onclick="window.location.href='mailto:anoxdevs@gmail.com?subject=ANOX%20Prep%20Bug%20Report'"
+          style="width:100%;margin-top:12px;">
+          🐛 Report a Problem
+        </button>
+
+        <p style="font-size:14px;margin-top:25px;">
+          ANOX Devs · anoxdevs@gmail.com
+        </p>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ABOUT ANOX PREP -->
+  <div class="container" id="about" style="display:none;">
+    <div class="card">
+
+      <button class="syllabus-back-icon" type="button"
+        onclick="goSettings()"
+        aria-label="Back to Home">←</button>
+
+      <div style="text-align:center;margin-top:10px;">
+        <div style="font-size:48px;">🎯</div>
+
+        <h2>About ANOX Prep</h2>
+
+        <p style="line-height:1.7;text-align:left;">
+          ANOX Prep is a modern learning and examination-preparation
+          platform designed to help students prepare smarter, practice
+          consistently, and build confidence for important examinations
+          such as JAMB and WAEC.
+        </p>
+
+        <p style="line-height:1.7;text-align:left;">
+          The app brings practice questions, JAMB novels, WAEC practice,
+          score tracking, and other useful study tools together in one
+          simple and easy-to-use experience. Our goal is to make preparation
+          more organized, accessible, and less stressful for students.
+        </p>
+
+        <p style="line-height:1.7;text-align:left;">
+          ANOX Prep is developed and maintained by
+          <strong>ANOX Devs</strong>, a technology and software development
+          team focused on building useful digital products that solve real
+          problems. We believe technology should make learning easier, and
+          ANOX Prep is built with that vision in mind.
+        </p>
+
+        <p style="line-height:1.7;text-align:left;">
+          We are continuously improving the app, adding new features,
+          refining the experience, and listening to feedback from our users.
+          ANOX Prep is only the beginning of what
+          <strong>ANOX Devs</strong> aims to build.
+        </p>
+
+        <p style="font-weight:600;margin-top:25px;">
+          Prepare smarter. Practice better. Achieve more. 🚀
+        </p>
+
+        <div style="margin-top:30px;padding-top:20px;border-top:1px solid #ddd;">
+          <p style="margin:5px 0;">Version 1.0.0</p>
+          <p style="margin:5px 0;">© 2026 ANOX Prep</p>
+        </div>
+
+      </div>
+
     </div>
   </div>
 

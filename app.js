@@ -249,11 +249,74 @@ function startPractice() {
   practiceAgain();
 }
 
-    function goHome() {
+
+
+
+function openActivation() {
+  const containers = document.querySelectorAll('.container');
+
+  containers.forEach(container => {
+    container.style.display = 'none';
+  });
+
+  const activation = document.getElementById('activation');
+
+  if (activation) {
+    activation.style.display = 'block';
+  }
+
+  window.scrollTo(0, 0);
+}
+
+function openSupport() {
+  const containers = document.querySelectorAll('.container');
+
+  containers.forEach(container => {
+    container.style.display = 'none';
+  });
+
+  const support = document.getElementById('support');
+
+  if (support) {
+    support.style.display = 'block';
+  }
+
+  window.scrollTo(0, 0);
+}
+
+function openAbout() {
+  const containers = document.querySelectorAll('.container');
+
+  containers.forEach(container => {
+    container.style.display = 'none';
+  });
+
+  const about = document.getElementById('about');
+
+  if (about) {
+    about.style.display = 'block';
+  }
+}
+
+
+function goSettings() {
+  document.getElementById('home').style.display = 'none';
+  document.getElementById('about').style.display = 'none';
+  document.getElementById('support').style.display = 'none';
+  document.getElementById('activation').style.display = 'none';
+  document.getElementById('settings').style.display = 'block';
+
+  window.scrollTo(0, 0);
+}
+
+function goHome() {
       document.getElementById('selection').style.display = 'none';
       document.getElementById('settings').style.display = 'none';
       document.getElementById('novels').style.display = 'none';
       document.getElementById('waec').style.display = 'none';
+      document.getElementById('about').style.display = 'none';
+      document.getElementById('support').style.display = 'none';
+      document.getElementById('activation').style.display = 'none';
       document.getElementById('home').style.display = 'block';
 
       window.scrollTo(0, 0);
@@ -784,8 +847,8 @@ function showQuestion() {
     }
   }
 
-window.nextQuestion = function() {
 
+window.nextQuestion = function() {
 
     const subject =
       questions[currentQuestion].subject;
@@ -1322,6 +1385,7 @@ function showAccountScreen() {
   setupGoogleSignIn();
 }
 
+
 async function handleGoogleCredential(response) {
   const status = document.getElementById('google-auth-status');
 
@@ -1448,3 +1512,22 @@ window.addEventListener('load', updateHomeGreeting);
 
 window.addEventListener('load', initializeAnoxAuth);
 
+
+function activateApp() {
+  const input = document.getElementById('activation-code');
+  const message = document.getElementById('activation-message');
+
+  if (!input || !message) return;
+
+  const code = input.value.trim();
+
+  if (code === 'ANOX2026') {
+    message.textContent = '✅ App activated successfully!';
+    message.style.color = 'green';
+
+    localStorage.setItem('anoxActivated', 'true');
+  } else {
+    message.textContent = '❌ Invalid activation code.';
+    message.style.color = 'red';
+  }
+}
