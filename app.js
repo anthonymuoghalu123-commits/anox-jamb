@@ -25,6 +25,7 @@ function renderHomeSubjects() {
 
 let lastSelectedSubjects = [0];
 let resetSubjectsAfterExit = false;
+let anoxActivated = false;
 
   function updateSelection() {
   const selected = document.querySelectorAll(
@@ -251,6 +252,62 @@ function startPractice() {
 
 
 
+
+function showActivationPopup() {
+  const oldPopup = document.getElementById('activation-popup');
+
+  if (oldPopup) {
+    oldPopup.remove();
+  }
+
+  const overlay = document.createElement('div');
+  overlay.id = 'activation-popup';
+
+  overlay.style.position = 'fixed';
+  overlay.style.top = '0';
+  overlay.style.left = '0';
+  overlay.style.width = '100%';
+  overlay.style.height = '100%';
+  overlay.style.background = 'rgba(0,0,0,0.55)';
+  overlay.style.display = 'flex';
+  overlay.style.alignItems = 'center';
+  overlay.style.justifyContent = 'center';
+  overlay.style.zIndex = '10000';
+  overlay.style.padding = '20px';
+  overlay.style.boxSizing = 'border-box';
+
+  const darkMode = document.body.classList.contains('dark-mode');
+
+  const cardBackground = darkMode ? '#1e1e1e' : '#ffffff';
+  const cardColor = darkMode ? '#ffffff' : '#111111';
+  const messageColor = darkMode ? '#cccccc' : '#666666';
+
+  overlay.innerHTML =
+    '<div style="background:' + cardBackground + ';color:' + cardColor + ';width:100%;max-width:380px;border-radius:20px;padding:25px;text-align:center;box-shadow:0 10px 30px rgba(0,0,0,0.25);">' +
+      '<div style="font-size:42px;margin-bottom:10px;">🔒</div>' +
+      '<h2 style="margin:0 0 10px;">Activate ANOX Prep</h2>' +
+      '<p style="margin:0 0 25px;color:' + messageColor + ';line-height:1.5;">' +
+        'You have reached the free question limit. Activate ANOX Prep to continue practicing.' +
+      '</p>' +
+      '<div style="display:flex;gap:10px;">' +
+        '<button id="activation-popup-cancel" type="button" style="flex:1;padding:13px;border:1px solid #d7deea;border-radius:12px;background:transparent;color:' + cardColor + ';font-size:16px;">Cancel</button>' +
+        '<button id="activation-popup-activate" type="button" style="flex:1;padding:13px;border:none;border-radius:12px;background:#0b5cff;color:white;font-size:16px;">Activate</button>' +
+      '</div>' +
+    '</div>';
+
+  document.body.appendChild(overlay);
+
+  document.getElementById('activation-popup-cancel').onclick = function() {
+    overlay.remove();
+    currentQuestion = 5;
+    showQuestion();
+  };
+
+  document.getElementById('activation-popup-activate').onclick = function() {
+    overlay.remove();
+    openActivation();
+  };
+}
 
 function openActivation() {
   const containers = document.querySelectorAll('.container');
@@ -850,6 +907,17 @@ function showQuestion() {
 
 window.nextQuestion = function() {
 
+  // Require activation before moving from Question 6 to Question 7
+  const currentSubject = questions[currentQuestion].subject;
+  const currentRange = subjectRanges[currentSubject];
+  const questionNumberInSubject =
+    currentQuestion - currentRange.start + 1;
+
+  if (questionNumberInSubject === 6 && !anoxActivated) {
+    showActivationPopup();
+    return;
+  }
+
     const subject =
       questions[currentQuestion].subject;
 
@@ -1135,6 +1203,12 @@ function showWaecQuestion() {
 
   document.getElementById('waec-next-button').onclick = function() {
     if (waecAnswers[waecCurrentQuestion] === undefined) return;
+
+    // Require activation before moving from WAEC Question 6 to Question 7
+    if (waecCurrentQuestion === 5 && !anoxActivated) {
+      showActivationPopup();
+      return;
+    }
 
     waecCurrentQuestion++;
     showWaecQuestion();
