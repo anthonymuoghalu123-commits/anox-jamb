@@ -26,7 +26,32 @@ app.use(session({
     secure: false
   }
 }));
+app.use((req, res, next) => {
+  res.setHeader('Cross-Origin-Opener-Policy', 'same-origin-allow-popups');
+  next();
+});
+
 app.use(express.static(__dirname));
+
+app.post('/api/activate', (req, res) => {
+  const { code } = req.body;
+
+  if (code !== 'ANOX2026') {
+    return res.status(400).json({
+      success: false,
+      error: 'Invalid activation code'
+    });
+  }
+
+  req.session.activated = true;
+
+  res.json({
+    success: true,
+    message: 'App activated successfully'
+  });
+});
+
+
 
 const subjects = [
   "English Language",
@@ -62,7 +87,8 @@ app.get('/api/auth/me', (req, res) => {
 
   res.json({
     authenticated: true,
-    user: req.session.user
+    user: req.session.user,
+    activated: !!req.session.activated
   });
 });
 
