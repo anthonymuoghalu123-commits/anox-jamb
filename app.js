@@ -341,6 +341,69 @@ function openPaymentScreen() {
   window.scrollTo(0, 0);
 }
 
+async function startPayment() {
+  const status = document.getElementById('payment-status');
+  const button = document.getElementById('pay-now-button');
+
+  if (status) {
+    status.textContent = 'Preparing secure payment...';
+  }
+
+  if (button) {
+    button.disabled = true;
+  }
+
+  try {
+    const configResponse = await fetch('/api/auth/config');
+    const config = await configResponse.json();
+
+    if (!config.paystackPublicKey) {
+      throw new Error('Paystack is not configured');
+    }
+
+    if (typeof PaystackPop === 'undefined') {
+      throw new Error('Paystack checkout could not be loaded');
+    }
+
+    const handler = PaystackPop.setup({
+      key: config.paystackPublicKey,
+      email: 'customer@example.com',
+      amount: 200000,
+      currency: 'NGN',
+      ref: 'ANOX-' + Date.now(),
+      onClose: function() {
+        if (status) {
+          status.textContent = 'Payment window closed.';
+        }
+
+        if (button) {
+          button.disabled = false;
+        }
+      },
+      callback: function(response) {
+        if (status) {
+          status.textContent = 'Payment received. Verifying...';
+        }
+
+        console.log('Paystack reference:', response.reference);
+      }
+    });
+
+    handler.openIframe();
+
+  } catch (error) {
+    console.error('Payment error:', error);
+
+    if (status) {
+      status.textContent = error.message || 'Unable to start payment.';
+    }
+
+    if (button) {
+      button.disabled = false;
+    }
+  }
+}
+
 function openSupport() {
   const containers = document.querySelectorAll('.container');
 

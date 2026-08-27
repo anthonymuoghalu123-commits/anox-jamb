@@ -98,7 +98,8 @@ const subjects = [
 
 app.get('/api/auth/config', (req, res) => {
   res.json({
-    clientId: GOOGLE_CLIENT_ID
+    clientId: GOOGLE_CLIENT_ID,
+    paystackPublicKey: process.env.PAYSTACK_PUBLIC_KEY || ''
   });
 });
 
