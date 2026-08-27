@@ -2,6 +2,7 @@ const express = require('express');
 const session = require('express-session');
 const { OAuth2Client } = require('google-auth-library');
 const { Pool } = require('pg');
+const crypto = require('crypto');
 const fs = require('fs');
 const questionBank = require('./questions');
 const novels = require('./data/novels.json');
@@ -14,6 +15,10 @@ const PORT = process.env.PORT || 3000;
 
 const GOOGLE_CLIENT_ID = '493300249244-497u57o2ol526sh9qc7q5taclblprtq9.apps.googleusercontent.com';
 const googleClient = new OAuth2Client(GOOGLE_CLIENT_ID);
+
+function generateActivationCode() {
+  return 'ANOX-' + crypto.randomBytes(4).toString('hex').toUpperCase();
+}
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
@@ -55,28 +60,78 @@ app.use((req, res, next) => {
 
 app.use(express.static(__dirname));
 
-app.post('/api/activate', (req, res) => {
-  const { code } = req.body;
+app.post('/api/activate', async (req, res) => {
+  try {
+    if (!req.session.user) {
+      return res.status(401).json({
+        success: false,
+        error: 'Please sign in with Google first'
+      });
+    }
 
-  if (code !== 'ANOX2026') {
-    return res.status(400).json({
+    const { code } = req.body;
+
+    if (!code) {
+      return res.status(400).json({
+        success: false,
+        error: 'Activation code is required'
+      });
+    }
+
+    const result = await pool.query(
+      `SELECT id, activation_code
+       FROM activations
+       WHERE activation_code = $1
+         AND activated = FALSE`,
+      [code.trim()]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(400).json({
+        success: false,
+        error: 'Invalid or already used activation code'
+      });
+    }
+
+    await pool.query(
+      `UPDATE activations
+       SET google_id = $1,
+           email = $2,
+           activated = TRUE
+       WHERE id = $3`,
+      [
+        req.session.user.id,
+        req.session.user.email,
+        result.rows[0].id
+      ]
+    );
+
+    req.session.activated = true;
+
+    res.json({
+      success: true,
+      message: 'App activated successfully'
+    });
+
+  } catch (error) {
+    console.error('Activation error:', error.message);
+
+    res.status(500).json({
       success: false,
-      error: 'Invalid activation code'
+      error: 'Activation failed'
     });
   }
-
-  req.session.activated = true;
-
-  res.json({
-    success: true,
-    message: 'App activated successfully'
-  });
 });
-
-
 
 app.post('/api/payment/verify', async (req, res) => {
   try {
+    if (!req.session.user) {
+      return res.status(401).json({
+        success: false,
+        error: 'Please sign in with Google first'
+      });
+    }
+
     const { reference } = req.body;
 
     if (!reference) {
@@ -124,10 +179,25 @@ app.post('/api/payment/verify', async (req, res) => {
       });
     }
 
+    const activationCode = generateActivationCode();
+
+    await pool.query(
+      `INSERT INTO activations
+        (google_id, email, activation_code, payment_reference, activated)
+       VALUES ($1, $2, $3, $4, FALSE)`,
+      [
+        req.session.user.id,
+        req.session.user.email,
+        activationCode,
+        transaction.reference
+      ]
+    );
+
     res.json({
       success: true,
       message: 'Payment verified successfully',
-      reference: transaction.reference
+      reference: transaction.reference,
+      activationCode
     });
 
   } catch (error) {

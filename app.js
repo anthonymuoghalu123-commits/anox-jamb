@@ -354,6 +354,13 @@ async function startPayment() {
   }
 
   try {
+    const meResponse = await fetch('/api/auth/me');
+    const me = await meResponse.json();
+
+    if (!me.authenticated || !me.user || !me.user.email) {
+      throw new Error('Please sign in with Google before making a payment.');
+    }
+
     const configResponse = await fetch('/api/auth/config');
     const config = await configResponse.json();
 
@@ -367,10 +374,11 @@ async function startPayment() {
 
     const handler = PaystackPop.setup({
       key: config.paystackPublicKey,
-      email: 'customer@example.com',
+      email: me.user.email,
       amount: 200000,
       currency: 'NGN',
       ref: 'ANOX-' + Date.now(),
+
       onClose: function() {
         if (status) {
           status.textContent = 'Payment window closed.';
@@ -380,6 +388,7 @@ async function startPayment() {
           button.disabled = false;
         }
       },
+
       callback: async function(response) {
         if (status) {
           status.textContent = 'Payment received. Verifying...';
@@ -403,10 +412,22 @@ async function startPayment() {
           }
 
           if (status) {
-            status.textContent = 'Payment verified successfully.';
+            status.innerHTML =
+              '✅ Payment verified successfully!<br><br>' +
+              '<strong>Your ANOX Activation Code:</strong><br>' +
+              '<span style="font-size:22px;letter-spacing:2px;">' +
+              result.activationCode +
+              '</span><br><br>' +
+              'Save this code and enter it on the App Activation screen.';
+            status.style.color = 'green';
           }
 
-          console.log('Paystack payment verified:', result.reference);
+          console.log(
+            'Paystack payment verified:',
+            result.reference,
+            'Activation code:',
+            result.activationCode
+          );
 
         } catch (error) {
           console.error('Payment verification error:', error);
@@ -1695,7 +1716,7 @@ window.addEventListener('load', updateHomeGreeting);
 window.addEventListener('load', initializeAnoxAuth);
 
 
-function activateApp() {
+async function activateApp() {
   const input = document.getElementById('activation-code');
   const message = document.getElementById('activation-message');
 
@@ -1703,13 +1724,39 @@ function activateApp() {
 
   const code = input.value.trim();
 
-  if (code === 'ANOX2026') {
+  if (!code) {
+    message.textContent = '❌ Enter your activation code.';
+    message.style.color = 'red';
+    return;
+  }
+
+  message.textContent = 'Verifying activation code...';
+  message.style.color = '';
+
+  try {
+    const response = await fetch('/api/activate', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ code })
+    });
+
+    const result = await response.json();
+
+    if (!response.ok || !result.success) {
+      throw new Error(result.error || 'Invalid activation code.');
+    }
+
     message.textContent = '✅ App activated successfully!';
     message.style.color = 'green';
 
     localStorage.setItem('anoxActivated', 'true');
-  } else {
-    message.textContent = '❌ Invalid activation code.';
+
+  } catch (error) {
+    console.error('Activation error:', error);
+
+    message.textContent = error.message || '❌ Invalid activation code.';
     message.style.color = 'red';
   }
 }
