@@ -1665,8 +1665,10 @@ async function initializeAnoxAuth() {
     const data = await response.json();
 
     if (data.authenticated) {
+      anoxActivated = !!data.activated;
       showAnoxSplash();
     } else {
+      anoxActivated = false;
       showAccountScreen();
     }
 
@@ -1751,6 +1753,7 @@ async function activateApp() {
     message.textContent = '✅ App activated successfully!';
     message.style.color = 'green';
 
+    anoxActivated = true;
     localStorage.setItem('anoxActivated', 'true');
 
   } catch (error) {
