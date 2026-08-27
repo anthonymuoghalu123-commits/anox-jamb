@@ -1,6 +1,7 @@
 const express = require('express');
 const session = require('express-session');
 const { OAuth2Client } = require('google-auth-library');
+const { Pool } = require('pg');
 const fs = require('fs');
 const questionBank = require('./questions');
 const novels = require('./data/novels.json');
@@ -13,6 +14,27 @@ const PORT = process.env.PORT || 3000;
 
 const GOOGLE_CLIENT_ID = '493300249244-497u57o2ol526sh9qc7q5taclblprtq9.apps.googleusercontent.com';
 const googleClient = new OAuth2Client(GOOGLE_CLIENT_ID);
+
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: process.env.DATABASE_URL ? { rejectUnauthorized: false } : false
+});
+
+pool.query(`
+  CREATE TABLE IF NOT EXISTS activations (
+    id SERIAL PRIMARY KEY,
+    google_id TEXT UNIQUE,
+    email TEXT,
+    activation_code TEXT UNIQUE,
+    payment_reference TEXT UNIQUE,
+    activated BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  )
+`).then(() => {
+  console.log('Activation database ready');
+}).catch((error) => {
+  console.error('Activation database error:', error.message);
+});
 
 app.use(express.json());
 
