@@ -325,6 +325,22 @@ function openActivation() {
   window.scrollTo(0, 0);
 }
 
+function openPaymentScreen() {
+  const containers = document.querySelectorAll('.container');
+
+  containers.forEach(container => {
+    container.style.display = 'none';
+  });
+
+  const paymentScreen = document.getElementById('payment-screen');
+
+  if (paymentScreen) {
+    paymentScreen.style.display = 'block';
+  }
+
+  window.scrollTo(0, 0);
+}
+
 function openSupport() {
   const containers = document.querySelectorAll('.container');
 
