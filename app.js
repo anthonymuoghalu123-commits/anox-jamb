@@ -380,12 +380,41 @@ async function startPayment() {
           button.disabled = false;
         }
       },
-      callback: function(response) {
+      callback: async function(response) {
         if (status) {
           status.textContent = 'Payment received. Verifying...';
         }
 
-        console.log('Paystack reference:', response.reference);
+        try {
+          const verifyResponse = await fetch('/api/payment/verify', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              reference: response.reference
+            })
+          });
+
+          const result = await verifyResponse.json();
+
+          if (!verifyResponse.ok || !result.success) {
+            throw new Error(result.error || 'Payment verification failed');
+          }
+
+          if (status) {
+            status.textContent = 'Payment verified successfully.';
+          }
+
+          console.log('Paystack payment verified:', result.reference);
+
+        } catch (error) {
+          console.error('Payment verification error:', error);
+
+          if (status) {
+            status.textContent = error.message || 'Payment verification failed.';
+          }
+        }
       }
     });
 

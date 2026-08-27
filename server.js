@@ -75,6 +75,71 @@ app.post('/api/activate', (req, res) => {
 
 
 
+app.post('/api/payment/verify', async (req, res) => {
+  try {
+    const { reference } = req.body;
+
+    if (!reference) {
+      return res.status(400).json({
+        success: false,
+        error: 'Payment reference is required'
+      });
+    }
+
+    if (!process.env.PAYSTACK_SECRET_KEY) {
+      return res.status(500).json({
+        success: false,
+        error: 'Paystack is not configured'
+      });
+    }
+
+    const response = await fetch(
+      `https://api.paystack.co/transaction/verify/${encodeURIComponent(reference)}`,
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.PAYSTACK_SECRET_KEY}`
+        }
+      }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok || !data.status || !data.data) {
+      return res.status(400).json({
+        success: false,
+        error: 'Unable to verify payment'
+      });
+    }
+
+    const transaction = data.data;
+
+    if (
+      transaction.status !== 'success' ||
+      transaction.currency !== 'NGN' ||
+      transaction.amount !== 200000
+    ) {
+      return res.status(400).json({
+        success: false,
+        error: 'Payment verification failed'
+      });
+    }
+
+    res.json({
+      success: true,
+      message: 'Payment verified successfully',
+      reference: transaction.reference
+    });
+
+  } catch (error) {
+    console.error('Paystack verification error:', error.message);
+
+    res.status(500).json({
+      success: false,
+      error: 'Payment verification failed'
+    });
+  }
+});
+
 const subjects = [
   "English Language",
   "Mathematics",
