@@ -556,7 +556,62 @@
           🔓 Activate App
         </button>
 
+        <button
+          id="get-activation-code-button"
+          class="start-btn"
+          type="button"
+          onclick="openPaymentScreen()"
+          style="width:100%;margin-top:10px;background:#eef4ff;color:#0b5cff;border:1px solid #0b5cff;">
+          🔑 Get Activation Code
+        </button>
+
         <p id="activation-message"
+          style="margin-top:15px;line-height:1.5;"></p>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ACTIVATION PAYMENT -->
+  <div class="container" id="payment-screen" style="display:none;">
+    <div class="card">
+
+      <button class="syllabus-back-icon" type="button"
+        onclick="openActivation()"
+        aria-label="Back to App Activation">←</button>
+
+      <div style="text-align:center;margin-top:10px;">
+
+        <div style="font-size:48px;">💳</div>
+
+        <h2>Get Activation Code</h2>
+
+        <p style="line-height:1.7;">
+          Activate ANOX Prep and unlock full access to
+          JAMB and WAEC practice.
+        </p>
+
+        <div style="margin:20px 0;padding:20px;border-radius:15px;background:#eef4ff;">
+          <p style="margin:0;font-size:14px;">Activation Price</p>
+          <h1 style="margin:8px 0;color:#0b5cff;">₦2,000</h1>
+        </div>
+
+        <p style="line-height:1.7;font-size:14px;">
+          Tap the button below to continue to secure payment.
+          Your payment will be verified automatically.
+        </p>
+
+        <button
+          id="pay-now-button"
+          class="start-btn"
+          type="button"
+          onclick="startPayment()"
+          style="width:100%;margin-top:15px;">
+          💳 Pay ₦2,000
+        </button>
+
+        <p id="payment-status"
           style="margin-top:15px;line-height:1.5;"></p>
 
       </div>
