@@ -466,19 +466,14 @@
 
       <div style="margin-top:25px;text-align:left;">
 
-        <div style="display:flex;align-items:center;justify-content:space-between;padding:15px 0;">
-          <div>
-            <h3 style="margin:0;">🌙 Dark Mode</h3>
-            <p style="margin:5px 0 0;">Use a darker appearance.</p>
-          </div>
+        <button id="dark-mode-button" class="start-btn"
+          type="button" style="width:100%;margin-top:12px;text-align:left;">
+          🌙 Dark Mode
+        </button>
 
-          <label style="position:relative;display:inline-block;width:50px;height:26px;">
-            <input id="dark-mode-toggle" type="checkbox"
-              style="opacity:0;width:0;height:0;">
-            <span id="dark-mode-slider"
-              style="position:absolute;cursor:pointer;inset:0;background:#ccc;border-radius:26px;">
-            </span>
-          </label>
+        <div style="display:none;">
+          <input id="dark-mode-toggle" type="checkbox">
+          <span id="dark-mode-slider"></span>
         </div>
 
         <button id="font-size-button" class="start-btn"
@@ -507,6 +502,12 @@
           onclick="openAbout()"
           style="width:100%;margin-top:12px;text-align:left;">
           ℹ️ About ANOX Prep
+        </button>
+
+        <button class="start-btn" type="button"
+          onclick="logoutAnox()"
+          style="width:100%;margin-top:12px;text-align:left;">
+          🚪 Log Out
         </button>
 
       </div>
