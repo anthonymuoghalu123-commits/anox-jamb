@@ -107,6 +107,19 @@ function applyDarkMode(enabled) {
   });
 }
 
+const darkModeButton = document.getElementById('dark-mode-button');
+
+if (darkModeButton) {
+  darkModeButton.onclick = function() {
+    const enabled =
+      localStorage.getItem('anox-dark-mode') !== 'true';
+
+    localStorage.setItem('anox-dark-mode', enabled);
+    applyDarkMode(enabled);
+    updateDarkModeToggle(enabled);
+  };
+}
+
 const darkModeToggle = document.getElementById('dark-mode-toggle');
 const darkModeSlider = document.getElementById('dark-mode-slider');
 
@@ -327,6 +340,8 @@ async function openActivation() {
   try {
     const response = await fetch('/api/auth/me');
     const data = await response.json();
+
+    anoxActivated = !!data.activated;
 
     if (data.authenticated && data.activated) {
       const card = document.querySelector('#activation .card');
@@ -1607,6 +1622,9 @@ function showAccountScreen() {
   const account = document.getElementById('account-screen');
   const splash = document.getElementById('splash');
   const home = document.getElementById('home');
+  const status = document.getElementById('google-auth-status');
+
+  if (status) status.textContent = '';
 
   if (splash) splash.style.display = 'none';
   if (home) home.style.display = 'none';
@@ -1702,6 +1720,23 @@ async function initializeAnoxAuth() {
   } catch (error) {
     console.error('Authentication check failed:', error);
     showAccountScreen();
+  }
+}
+
+
+async function logoutAnox() {
+  try {
+    await fetch('/api/auth/logout', {
+      method: 'POST'
+    });
+
+    anoxActivated = false;
+    localStorage.removeItem('anoxActivated');
+
+    showAccountScreen();
+
+  } catch (error) {
+    console.error('Logout failed:', error);
   }
 }
 
