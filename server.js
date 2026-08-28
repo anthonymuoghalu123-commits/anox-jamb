@@ -238,16 +238,40 @@ app.get('/api/auth/config', (req, res) => {
   });
 });
 
-app.get('/api/auth/me', (req, res) => {
-  if (!req.session.user) {
-    return res.json({ authenticated: false });
-  }
+app.get('/api/auth/me', async (req, res) => {
+  try {
+    if (!req.session.user) {
+      return res.json({ authenticated: false });
+    }
 
-  res.json({
-    authenticated: true,
-    user: req.session.user,
-    activated: !!req.session.activated
-  });
+    const result = await pool.query(
+      `SELECT activated
+       FROM activations
+       WHERE google_id = $1
+         AND activated = TRUE
+       LIMIT 1`,
+      [req.session.user.id]
+    );
+
+    const activated = result.rows.length > 0;
+
+    req.session.activated = activated;
+
+    res.json({
+      authenticated: true,
+      user: req.session.user,
+      activated
+    });
+
+  } catch (error) {
+    console.error('Authentication status check failed:', error.message);
+
+    res.status(500).json({
+      authenticated: true,
+      user: req.session.user,
+      activated: false
+    });
+  }
 });
 
 app.post('/api/auth/google', async (req, res) => {
