@@ -309,7 +309,7 @@ function showActivationPopup() {
   };
 }
 
-function openActivation() {
+async function openActivation() {
   const containers = document.querySelectorAll('.container');
 
   containers.forEach(container => {
@@ -323,6 +323,33 @@ function openActivation() {
   }
 
   window.scrollTo(0, 0);
+
+  try {
+    const response = await fetch('/api/auth/me');
+    const data = await response.json();
+
+    if (data.authenticated && data.activated) {
+      const card = document.querySelector('#activation .card');
+
+      if (card) {
+        card.innerHTML =
+          '<button class="syllabus-back-icon" type="button" ' +
+          'onclick="goSettings()" aria-label="Back to Settings">←</button>' +
+          '<div style="text-align:center;margin-top:25px;">' +
+          '<div style="font-size:64px;">✅</div>' +
+          '<h2>App Activated</h2>' +
+          '<p style="line-height:1.7;">' +
+          'Your ANOX Prep account is activated.' +
+          '</p>' +
+          '<p style="line-height:1.7;font-size:14px;">' +
+          'You now have full access to all JAMB and WAEC practice questions.' +
+          '</p>' +
+          '</div>';
+      }
+    }
+  } catch (error) {
+    console.error('Activation status check failed:', error);
+  }
 }
 
 function openPaymentScreen() {
