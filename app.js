@@ -683,13 +683,8 @@ lastSelectedSubjects = Array.from(selected).map(input =>
 
     if (timeLeft <= 0) {
       clearInterval(timerInterval);
-      alert('Time is up!');
-      document.getElementById("selection").innerHTML =
-        '<div class="card" style="text-align:center;">' +
-        '<h2>Time is up! ⏰</h2>' +
-        '<p>Your score:</p>' +
-        '<h1>' + score + ' / ' + questions.length + '</h1>' +
-        '</div>';
+      updateBestJambScore();
+      showResults();
       return;
     }
 
